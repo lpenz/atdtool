@@ -59,58 +59,80 @@ class FileWords:
     def __init__(self, fd):
         fd.seek(0)
         self.re = re.compile('([^a-z0-9A-Z_-])')
+        self.skipre = re.compile('[^a-z0-9A-Z_-]+')
         self.text = self.re.split(fd.read())
+        self.len = len(self.text)
         self.reset()
     def reset(self):
         self.i = 0
         self.line = 1
         self.col = 0
-    def goto(self, words0):
-        text = self.text
+        self.eof = False
+    def next(self):
+        if self.eof:
+            return
+        self.col = self.col + len(self.text[self.i])
+        self.i = self.i + 1
+        if self.i >= self.len:
+            self.eof = True
+            return
+        if self.text[self.i] == '\n':
+            self.line = self.line + 1
+            self.col = 0
+    def skipnw(self, prec):
+        while self.skipre.match(self.text[self.i]) or self.text[self.i] == '':
+            self.next()
+    def checkpos(self, words0):
         words = tuple(self.re.split(words0))
+        text = self.text
+        t = []
+        j = 0
         w = ''
-        iback = self.i
-        lineback = self.line
-        colback = self.col
-        imax = len(text)
+        while len(t) < len(words):
+            if self.i + j == self.len:
+                self.eof = True
+                return False, ''
+            t.append(text[self.i+j])
+            w = w + text[self.i+j]
+            if self.i + j + 1 < self.len and text[self.i+j+1] == '.':
+                t.append(t.pop() + text[self.i+j+2])
+                w = w + '.' + text[self.i+j+2]
+            j = j + 1
+        return tuple(t) == words, w
+    def goto(self, prec, words):
         found = False
-        while True:
-            t = []
-            j = 0
-            w = ''
-            while len(t) < len(words):
-                t.append(text[self.i+j])
-                w = w + text[self.i+j]
-                if text[self.i+j+1] == '.':
-                    t.append(t.pop() + text[self.i+j+2])
-                    w = w + '.' + text[self.i+j+2]
-                j = j + 1
-            if tuple(t) == words:
-                break
-            self.col = self.col + len(text[self.i])
-            self.i = self.i + 1
-            if text[self.i] == '\n':
-                self.line = self.line + 1
-                self.col = 0
-            if self.i + len(words) == imax:
-                self.line = lineback
-                self.col = colback
-                self.i = iback
-                return False
-        self.words = w
-        return True
+        w = ''
+        if prec:
+            target = prec
+        else:
+            target = words
+        while not self.eof and not found:
+            found, w = self.checkpos(target)
+            if not found:
+                self.next()
+            elif prec:
+                self.next()
+                self.skipnw(prec)
+                found, w = self.checkpos(words)
+        if found:
+            self.words = w
+            return True
+        return False
+    def find(self, prec, words):
+        found = self.goto(prec, words)
+        if not found:
+            self.reset()
+            found = self.goto(prec, words)
+        return found
+
 
 
 
 def showerrs(cfg, filename, fd, errs):
     t = FileWords(fd)
     for e in errs:
-        t.reset()
-        if e.precontext:
-            if not t.goto(e.precontext):
-                raise Exception('could not find precontext "%s" for "%s" from line %d' % (e.precontext, e.string, t.line))
         exactstr = ''
-        if not t.goto(e.string):
+        if not t.find(e.precontext, e.string):
             exactstr = ' (?)'
         sys.stdout.write('%s:%d:%d:%s %s "%s" (prec "%s")\n' % (filename, t.line, t.col, exactstr, e.description, t.words, e.precontext))
         for suggestion in e.suggestions:
