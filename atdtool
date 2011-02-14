@@ -15,6 +15,9 @@ import urllib
 from xml.etree import ElementTree
 
 
+PROGRAM_NAME = "atdtool"
+PROGRAM_VERSION = "1.0"
+
 
 def checkDocument(cfg, fd):
     '''Invoke checkDocument service and return a list of errors.'''
@@ -157,6 +160,7 @@ def showerrs(filename, fd, errs):
 
 def main():
     parser = OptionParser(usage='Usage: %prog <file>',
+                          version="%prog "+PROGRAM_VERSION,
                           description='''\
 atdtool submits the given file to the After the Deadline language checking
 service at http://www.afterthedeadline.com/ and presents the results in
