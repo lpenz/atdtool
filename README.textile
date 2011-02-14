@@ -1,0 +1,59 @@
+<H1>NAME</H1>
+<P>
+atdtool - After the Deadline command-line tool
+</P>
+<H1>SYNOPSIS</H1>
+<P>
+**atdtool** -h
+</P>
+<P>
+**atdtool** &lt;file&gt;
+</P>
+<P>
+**atdtool** -l &lt;fr/de/pt/es&gt; &lt;file&gt;
+</P>
+<P>
+**atdtool** -s &lt;server&gt; &lt;file&gt;
+</P>
+<H1>DESCRIPTION</H1>
+<P>
+**atdtool** is a command-line tools that contacts a After the Deadline language
+service and displays the errors reported by the service in a format very similar
+to gcc's.
+</P>
+<P>
+**After the Deadline** is a language checker that is able to:
+</P>
+<UL>
+<LI>spell check contextually
+<LI>check style
+<LI>check grammar
+</UL>
+
+<P>
+The official server is free for personal use. For commercial needs, free server
+software is provided. atdtool can be used with the default server or with a
+custom one.
+</P>
+<H1>OPTIONS</H1>
+<P>
+**-h** Help.
+</P>
+<P>
+**-s server** Use custom server.
+</P>
+<P>
+**-l &lt;fr/de/pt/es&gt;** Use the official server that supports the given language.
+</P>
+<H1>AUTHORS</H1>
+<P>
+Written by <A HREF="http://lpenz.github.com">Leandro Penz</A>, based on the python bindings
+by Miguel Ventura at
+<A HREF="http://bitbucket.org/miguelventura/after_the_deadline/wiki/Home">http://bitbucket.org/miguelventura/after_the_deadline/wiki/Home</A>.
+</P>
+<H1>SEE ALSO</H1>
+<UL>
+<LI><A HREF="http://www.afterthedeadline.com/">http://www.afterthedeadline.com/</A>
+<LI><A HREF="http://bitbucket.org/miguelventura/after_the_deadline/wiki/Home">http://bitbucket.org/miguelventura/after_the_deadline/wiki/Home</A>.
+</UL>
+
