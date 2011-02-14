@@ -1,0 +1,65 @@
+atdtool
+
+
+
+= NAME =
+
+atdtool - After the Deadline command-line tool
+
+
+
+= SYNOPSIS =
+
+**atdtool** -h
+
+**atdtool** <file>
+
+**atdtool** -l <fr/de/pt/es> <file>
+
+**atdtool** -s <server> <file>
+
+
+
+= DESCRIPTION =
+
+**atdtool** is a command-line tools that contacts a After the Deadline language
+service and displays the errors reported by the service in a format very similar
+to gcc's.
+
+**After the Deadline** is a language checker that is able to:
+- spell check contextually
+- check style
+- check grammar
+
+
+The official server is free for personal use. For commercial needs, free server
+software is provided. atdtool can be used with the default server or with a
+custom one.
+
+
+
+= OPTIONS =
+
+**-h** Help.
+
+**-s server** Use custom server.
+
+**-l <fr/de/pt/es>** Use the official server that supports the given language.
+
+
+
+= AUTHORS =
+
+Written by [Leandro Penz http://lpenz.github.com], based on the python bindings
+by Miguel Ventura at
+http://bitbucket.org/miguelventura/after_the_deadline/wiki/Home.
+
+
+
+= SEE ALSO =
+
+- http://www.afterthedeadline.com/
+- http://bitbucket.org/miguelventura/after_the_deadline/wiki/Home.
+
+
+
