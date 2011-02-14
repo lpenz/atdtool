@@ -1,0 +1,124 @@
+#!/usr/bin/python
+''' atdtool
+Command-line client for After The Deadline.
+Based on ATD module by Miguel Ventura, https://bitbucket.org/miguelventura/after_the_deadline/wiki/Home
+'''
+
+from optparse import OptionParser
+import re
+import sys
+import httplib
+import urllib
+from xml.etree import ElementTree
+
+
+def checkDocument(cfg, fd):
+    '''Invoke checkDocument service and return a list of errors.
+    See http://www.afterthedeadline.com/api.slp for more info.'''
+
+    service = httplib.HTTPConnection('service.afterthedeadline.com')
+    service.request('POST', '/checkDocument', urllib.urlencode({ 'key': '', 'data': fd.read() }))
+    response = service.getresponse()
+
+    if response.status != httplib.OK:
+        service.close()
+        raise Exception('Unexpected response code from AtD service: %d' % response.status)
+    e = ElementTree.fromstring(response.read())
+    service.close()
+
+    errs = e.findall('message')
+    if len(errs) > 0:
+        raise Exception('Server returned an error: %s' % errs[0].text)
+    return map(lambda err: Error(err), e.findall('error'))
+
+
+class Error:
+    ''' AtD Error Object
+    These are to be returned in a list by checkText()
+    Available properties are: string, description, precontext, type, url
+    and suggestions.
+
+    Look at http://www.afterthedeadline.com/api.slp for more information.'''
+    def __init__(self, e):
+        self.string = e.find('string').text
+        self.description = e.find('description').text
+        self.precontext = e.find('precontext').text
+        self.type = e.find('type').text
+        self.url = ''
+        if not e.find('url') is None:
+            self.url = e.find('url').text
+        self.suggestions = []
+        if not e.find('suggestions') is None:
+            self.suggestions = map(lambda o: o.text, e.find('suggestions').findall('option'))
+    def __str__(self):
+        return '%s (%s)' % (self.string, self.description)
+
+
+
+class FileWords:
+    def __init__(self, fd):
+        fd.seek(0)
+        self.text = re.split('([^a-z0-9A-Z_-])', fd.read())
+        self.i = 0
+        self.line = 1
+        self.col = 0
+    def goto(self, word):
+        iback = self.i
+        lineback = self.line
+        colback = self.col
+        imax = len(self.text)
+        while self.text[self.i] != word:
+            self.col = self.col + len(self.text[self.i])
+            self.i = self.i + 1
+            if self.text[self.i] == '\n':
+                self.line = self.line + 1
+                self.col = 0
+            if self.i == imax - 1:
+                self.line = lineback
+                self.col = colback
+                self.i = iback
+                return False
+        return True
+
+
+
+def showerrs(cfg, filename, fd, errs):
+    t = FileWords(fd)
+    for e in errs:
+        if e.precontext:
+            if not t.goto(e.precontext):
+                raise Exception('could not find precontext "%s" for "%s" from line %d' % (e.precontext, e.string, t.line))
+        exactstr = ''
+        if not t.goto(e.string):
+            exactstr = ' (?)'
+        sys.stdout.write('%s:%d:%d:%s %s "%s"\n' % (filename, t.line, t.col, exactstr, e.description, e.string))
+        for suggestion in e.suggestions:
+            sys.stdout.write('  suggestion: %s\n' % suggestion)
+
+
+
+def main():
+    parser = OptionParser(usage='Usage: %prog <file>',
+                          description='''\
+atdtool submits the given file to the After the Deadline language checking
+service at http://open.afterthedeadline.com/. AtD is the tool used by
+Wordpress, and has plugins for several editors and browsers.
+
+The output is a gcc-like format that simplifies integration with vi, emacs,
+etc.
+''')
+    (cfg, args) = parser.parse_args()
+
+    if len(args) != 1:
+        parser.error('invalid argument')
+
+    filename = args[0]
+    fd = open(filename)
+    errs = checkDocument(cfg, fd)
+    fd.seek(0)
+    showerrs(cfg, filename, fd, errs)
+
+
+if __name__ == '__main__':
+    main()
+
