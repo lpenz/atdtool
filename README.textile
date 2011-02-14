@@ -17,7 +17,7 @@ atdtool - After the Deadline command-line tool
 </P>
 <H1>DESCRIPTION</H1>
 <P>
-**atdtool** is a command-line tools that contacts a After the Deadline language
+**atdtool** is a command-line tools that contacts an After the Deadline language
 service and displays the errors reported by the service in a format very similar
 to gcc's.
 </P>
@@ -31,8 +31,8 @@ to gcc's.
 </UL>
 
 <P>
-The official server is free for personal use. For commercial needs, free server
-software is provided. atdtool can be used with the default server or with a
+The official server is free for personal use. They provide a free server for
+commercial use. atdtool can be used with the default server or with a
 custom one.
 </P>
 <H1>OPTIONS</H1>
