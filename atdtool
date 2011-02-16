@@ -16,7 +16,7 @@ from xml.etree import ElementTree
 
 
 PROGRAM_NAME = "atdtool"
-PROGRAM_VERSION = "1.0"
+PROGRAM_VERSION = "1.1"
 
 
 def checkDocument(cfg, fd):
@@ -26,7 +26,7 @@ def checkDocument(cfg, fd):
     if cfg.lang != '':
         server = cfg.lang + '.' + cfg.server
     service = httplib.HTTPConnection(server)
-    service.request('POST', '/checkDocument', urllib.urlencode({ 'key': '', 'data': fd.read() }))
+    service.request('POST', '/checkDocument', urllib.urlencode({ 'key': cfg.key, 'data': fd.read() }))
     response = service.getresponse()
     if response.status != httplib.OK:
         service.close()
@@ -169,20 +169,33 @@ straightforward.
 ''')
     parser.add_option('-s', '--server', dest='server', help='Select AtD server', default='service.afterthedeadline.com')
     parser.add_option('-l', '--language', dest='lang', help='Select language server [fr/de/pt/es]', default='')
+    parser.add_option('-e', '--error', dest='error', help='Exit with error if any mistakes are found', default=False)
+    parser.add_option('-k', '--key', dest='key', help='Key to use', default='')
 
     (cfg, args) = parser.parse_args()
 
-    if len(args) != 1:
-        parser.error('invalid argument')
+    if len(args) == 0:
+        parser.error('expecting file argument')
 
     if cfg.server != 'service.afterthedeadline.com' and cfg.lang != '':
         parser.error('The language selects an official AtD server, there is no reason to specify both.')
 
-    filename = args[0]
-    fd = open(filename)
-    errs = checkDocument(cfg, fd)
-    fd.seek(0)
-    showerrs(filename, fd, errs)
+    founderr = False
+    for filename in args:
+        fd = None
+        try:
+            fd = open(filename)
+        except IOError:
+            print('%s: No such file or directory' % filename)
+        if not fd:
+            continue
+        errs = checkDocument(cfg, fd)
+        founderr = founderr or len(errs) > 0
+        fd.seek(0)
+        showerrs(filename, fd, errs)
+        fd.close()
+    if cfg.error and founderr:
+        sys.exit(1)
 
 
 if __name__ == '__main__':

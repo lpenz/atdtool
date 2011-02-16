@@ -12,11 +12,11 @@ atdtool - After the Deadline command-line tool
 
 **atdtool** -h
 
-**atdtool** <file>
+**atdtool** [-e/--error] [-k/--key=<key>] <files...>
 
-**atdtool** -l <fr/de/pt/es> <file>
+**atdtool** [-e/--error] [-k/--key=<key>] -l/--language <fr/de/pt/es> <files...>
 
-**atdtool** -s <server> <file>
+**atdtool** [-e/--error] [-k/--key=<key>] -s/--server <server> <files...>
 
 
 
@@ -42,17 +42,34 @@ custom one.
 
 **-h** Help.
 
-**-s server** Use custom server.
+**-e, --error** Exit with error when any error is found.
 
-**-l <fr/de/pt/es>** Use the official server that supports the given language.
+**-k, --key=<key>** Selects the key to use. AtD servers cache results based on
+this parameter.
+
+**-l, --language=[fr/de/pt/es]** Selects the language. This affects the server used.
+
+**-s, --server=<server>** Use a custom server.
+
+
+
+= Vim integration =
+
+atdtool can be used as a //quickfix// program in Vim with the following command:
+``` :set makeprg=atdtool\ %
+
+You can then use ``:make`` to check the current buffer and navigate the errors
+with the quickfix window, the same way gcc's errors can be navigated.
+
+More information on quickfix can be found with ``:help quickfix`` in Vim or at
+http://vimdoc.sourceforge.net/htmldoc/quickfix.html
 
 
 
 = AUTHORS =
 
 Written by [Leandro Penz http://lpenz.github.com], based on the python bindings
-by Miguel Ventura at
-http://bitbucket.org/miguelventura/after_the_deadline/wiki/Home.
+by Miguel Ventura at http://bitbucket.org/miguelventura/after_the_deadline/wiki/Home.
 
 
 
