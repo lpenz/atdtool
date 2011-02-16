@@ -13,5 +13,5 @@
 	dh $@ 
 
 override_dh_auto_install:
-	$(MAKE) PREFIX=$(CURDIR)/debian/usr install
+	$(MAKE) PREFIX=$(CURDIR)/debian/atdtool/usr install
 

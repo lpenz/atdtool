@@ -10,7 +10,7 @@ Homepage: http://github.com/lpenz/atdtool
 
 Package: atdtool
 Architecture: all
-Depends: ${misc:Depends}, python
+Depends: ${misc:Depends}, python, ${python:Depends}
 Description:Command-line interface to After the Deadline language checker
  atdtool is a command-line tools that contacts an After the Deadline language
  service and displays the errors reported by the service in a format very
