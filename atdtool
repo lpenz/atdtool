@@ -26,7 +26,7 @@ def checkDocument(cfg, fd):
     if cfg.lang != '':
         server = cfg.lang + '.' + cfg.server
     service = httplib.HTTPConnection(server)
-    service.request('POST', '/checkDocument', urllib.urlencode({ 'key': '', 'data': fd.read() }))
+    service.request('POST', '/checkDocument', urllib.urlencode({ 'key': cfg.key, 'data': fd.read() }))
     response = service.getresponse()
     if response.status != httplib.OK:
         service.close()
@@ -170,6 +170,7 @@ straightforward.
     parser.add_option('-s', '--server', dest='server', help='Select AtD server', default='service.afterthedeadline.com')
     parser.add_option('-l', '--language', dest='lang', help='Select language server [fr/de/pt/es]', default='')
     parser.add_option('-e', '--error', dest='error', help='Exit with error if any mistakes are found', default=False)
+    parser.add_option('-k', '--key', dest='key', help='Key to use', default='')
 
     (cfg, args) = parser.parse_args()
 

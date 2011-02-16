@@ -12,11 +12,11 @@ atdtool - After the Deadline command-line tool
 
 **atdtool** -h
 
-**atdtool** [-e/--error] <file>
+**atdtool** [-e/--error] [-k/--key=<key>] <files...>
 
-**atdtool** [-e/--error] -l/--language <fr/de/pt/es> <file>
+**atdtool** [-e/--error] [-k/--key=<key>] -l/--language <fr/de/pt/es> <files...>
 
-**atdtool** [-e/--error] -s/--server <server> <file>
+**atdtool** [-e/--error] [-k/--key=<key>] -s/--server <server> <files...>
 
 
 
@@ -43,6 +43,9 @@ custom one.
 **-h** Help.
 
 **-e, --error** Exit with error when any error is found.
+
+**-k, --key=<key>** Selects the key to use. AtD servers cache results based on
+this parameter.
 
 **-l, --language=[fr/de/pt/es]** Selects the language. This affects the server used.
 
