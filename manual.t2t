@@ -38,6 +38,19 @@ custom one.
 
 
 
+= VIM integration =
+
+atdtool can be used as a //quickfix// program in VIM with the following command:
+``` :set makeprg=atdtool\ %
+
+You can then use ``:make`` to check the current buffer and navigate the errors
+with the quickfix window, the same way gcc's errors can be navigated.
+
+More information on quickfix can be found with ``:help quickfix`` or at
+http://vimdoc.sourceforge.net/htmldoc/quickfix.html
+
+
+
 = OPTIONS =
 
 **-h** Help.
