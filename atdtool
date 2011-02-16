@@ -172,17 +172,24 @@ straightforward.
 
     (cfg, args) = parser.parse_args()
 
-    if len(args) != 1:
-        parser.error('invalid argument')
+    if len(args) == 0:
+        parser.error('expecting file argument')
 
     if cfg.server != 'service.afterthedeadline.com' and cfg.lang != '':
         parser.error('The language selects an official AtD server, there is no reason to specify both.')
 
-    filename = args[0]
-    fd = open(filename)
-    errs = checkDocument(cfg, fd)
-    fd.seek(0)
-    showerrs(filename, fd, errs)
+    for filename in args:
+        fd = None
+        try:
+            fd = open(filename)
+        except IOError:
+            print('%s: No such file or directory' % filename)
+        if not fd:
+            continue
+        errs = checkDocument(cfg, fd)
+        fd.seek(0)
+        showerrs(filename, fd, errs)
+        fd.close()
 
 
 if __name__ == '__main__':
