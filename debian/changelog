@@ -1,3 +1,10 @@
+atdtool (1.1-1) unstable; urgency=low
+
+  * New upstream release: new parameters -e, -k; can check multiple files in a
+    single call; Vim integration documentation.
+
+ -- Leandro Lisboa Penz <llpenz@gmail.com>  Wed, 16 Feb 2011 12:51:57 -0200
+
 atdtool (1.0-1) unstable; urgency=low
 
   * Initial release.
