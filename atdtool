@@ -16,7 +16,7 @@ from xml.etree import ElementTree
 
 
 PROGRAM_NAME = "atdtool"
-PROGRAM_VERSION = "1.0"
+PROGRAM_VERSION = "1.1"
 
 
 def checkDocument(cfg, fd):
