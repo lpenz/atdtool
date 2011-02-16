@@ -7,13 +7,13 @@ atdtool - After the Deadline command-line tool
 **atdtool** -h
 </P>
 <P>
-**atdtool** &lt;file&gt;
+**atdtool** [-e/<S>error] [-k/</S>key=&lt;key&gt;] &lt;files...&gt;
 </P>
 <P>
-**atdtool** -l &lt;fr/de/pt/es&gt; &lt;file&gt;
+**atdtool** [-e/<S>error] [-k/</S>key=&lt;key&gt;] -l/--language &lt;fr/de/pt/es&gt; &lt;files...&gt;
 </P>
 <P>
-**atdtool** -s &lt;server&gt; &lt;file&gt;
+**atdtool** [-e/<S>error] [-k/</S>key=&lt;key&gt;] -s/--server &lt;server&gt; &lt;files...&gt;
 </P>
 <H1>DESCRIPTION</H1>
 <P>
@@ -40,16 +40,38 @@ custom one.
 **-h** Help.
 </P>
 <P>
-**-s server** Use custom server.
+**-e, --error** Exit with error when any error is found.
 </P>
 <P>
-**-l &lt;fr/de/pt/es&gt;** Use the official server that supports the given language.
+**-k, --key=&lt;key&gt;** Selects the key to use. AtD servers cache results based on
+this parameter.
+</P>
+<P>
+**-l, --language=[fr/de/pt/es]** Selects the language. This affects the server used.
+</P>
+<P>
+**-s, --server=&lt;server&gt;** Use a custom server.
+</P>
+<H1>Vim integration</H1>
+<P>
+atdtool can be used as a <I>quickfix</I> program in Vim with the following command:
+</P>
+<PRE>
+  :set makeprg=atdtool\ %
+</PRE>
+<P></P>
+<P>
+You can then use <CODE>:make</CODE> to check the current buffer and navigate the errors
+with the quickfix window, the same way gcc's errors can be navigated.
+</P>
+<P>
+More information on quickfix can be found with <CODE>:help quickfix</CODE> in Vim or at
+<A HREF="http://vimdoc.sourceforge.net/htmldoc/quickfix.html">http://vimdoc.sourceforge.net/htmldoc/quickfix.html</A>
 </P>
 <H1>AUTHORS</H1>
 <P>
 Written by <A HREF="http://lpenz.github.com">Leandro Penz</A>, based on the python bindings
-by Miguel Ventura at
-<A HREF="http://bitbucket.org/miguelventura/after_the_deadline/wiki/Home">http://bitbucket.org/miguelventura/after_the_deadline/wiki/Home</A>.
+by Miguel Ventura at <A HREF="http://bitbucket.org/miguelventura/after_the_deadline/wiki/Home">http://bitbucket.org/miguelventura/after_the_deadline/wiki/Home</A>.
 </P>
 <H1>SEE ALSO</H1>
 <UL>
