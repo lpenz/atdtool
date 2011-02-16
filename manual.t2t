@@ -12,11 +12,11 @@ atdtool - After the Deadline command-line tool
 
 **atdtool** -h
 
-**atdtool** <file>
+**atdtool** [-e/--error] <file>
 
-**atdtool** -l <fr/de/pt/es> <file>
+**atdtool** [-e/--error] -l/--language <fr/de/pt/es> <file>
 
-**atdtool** -s <server> <file>
+**atdtool** [-e/--error] -s/--server <server> <file>
 
 
 
@@ -38,26 +38,28 @@ custom one.
 
 
 
-= VIM integration =
+= OPTIONS =
 
-atdtool can be used as a //quickfix// program in VIM with the following command:
+**-h** Help.
+
+**-e, --error** Exit with error when any error is found.
+
+**-l, --language=[fr/de/pt/es]** Selects the language. This affects the server used.
+
+**-s, --server=<server>** Use a custom server.
+
+
+
+= Vim integration =
+
+atdtool can be used as a //quickfix// program in Vim with the following command:
 ``` :set makeprg=atdtool\ %
 
 You can then use ``:make`` to check the current buffer and navigate the errors
 with the quickfix window, the same way gcc's errors can be navigated.
 
-More information on quickfix can be found with ``:help quickfix`` or at
+More information on quickfix can be found with ``:help quickfix`` in Vim or at
 http://vimdoc.sourceforge.net/htmldoc/quickfix.html
-
-
-
-= OPTIONS =
-
-**-h** Help.
-
-**-s server** Use custom server.
-
-**-l <fr/de/pt/es>** Use the official server that supports the given language.
 
 
 
