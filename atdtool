@@ -169,6 +169,7 @@ straightforward.
 ''')
     parser.add_option('-s', '--server', dest='server', help='Select AtD server', default='service.afterthedeadline.com')
     parser.add_option('-l', '--language', dest='lang', help='Select language server [fr/de/pt/es]', default='')
+    parser.add_option('-e', '--error', dest='error', help='Exit with error if any mistakes are found', default=False)
 
     (cfg, args) = parser.parse_args()
 
@@ -178,6 +179,7 @@ straightforward.
     if cfg.server != 'service.afterthedeadline.com' and cfg.lang != '':
         parser.error('The language selects an official AtD server, there is no reason to specify both.')
 
+    founderr = False
     for filename in args:
         fd = None
         try:
@@ -187,9 +189,12 @@ straightforward.
         if not fd:
             continue
         errs = checkDocument(cfg, fd)
+        founderr = founderr or len(errs) > 0
         fd.seek(0)
         showerrs(filename, fd, errs)
         fd.close()
+    if cfg.error and founderr:
+        sys.exit(1)
 
 
 if __name__ == '__main__':
