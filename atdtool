@@ -12,6 +12,7 @@ import re
 import sys
 import httplib
 import urllib
+import base64
 from xml.etree import ElementTree
 
 
@@ -22,11 +23,22 @@ PROGRAM_VERSION = "1.1"
 def checkDocument(cfg, fd):
     '''Invoke checkDocument service and return a list of errors.'''
 
-    server = cfg.server
-    if cfg.lang != '':
-        server = cfg.lang + '.' + cfg.server
-    service = httplib.HTTPConnection(server)
-    service.request('POST', '/checkDocument', urllib.urlencode({ 'key': cfg.key, 'data': fd.read() }))
+    server = re.sub(r'^https?://', '', cfg.server)
+    headers = {"Content-Type":"application/x-www-form-urlencoded"}
+
+    if cfg.server.startswith('https'):
+        service = httplib.HTTPSConnection(server, cfg.port)
+    else:
+        service = httplib.HTTPConnection(server, cfg.port)
+
+    if cfg.username:
+        headers["Authorization"] = "Basic %s" % (base64.b64encode("%s:%s" % (cfg.username, cfg.password)))
+
+    service.request(method='POST',
+                    url='/checkDocument',
+                    body=urllib.urlencode({ 'key': cfg.key,
+                                            'data': fd.read() }),
+                    headers=headers)
     response = service.getresponse()
     if response.status != httplib.OK:
         service.close()
@@ -168,9 +180,12 @@ the same format as gcc, making integration with other tools (vi, emacs, etc.)
 straightforward.
 ''')
     parser.add_option('-s', '--server', dest='server', help='Select AtD server', default='service.afterthedeadline.com')
+    parser.add_option('-P', '--port', dest='port', help='Server port (default: 80)', default='80')
     parser.add_option('-l', '--language', dest='lang', help='Select language server [fr/de/pt/es]', default='')
     parser.add_option('-e', '--error', dest='error', help='Exit with error if any mistakes are found', default=False)
     parser.add_option('-k', '--key', dest='key', help='Key to use', default='')
+    parser.add_option('-u', '--username', dest='username', help='Username (if required by server)', default='')
+    parser.add_option('-p', '--password', dest='password', help='Password (if required by server)', default='')
 
     (cfg, args) = parser.parse_args()
 
@@ -179,6 +194,9 @@ straightforward.
 
     if cfg.server != 'service.afterthedeadline.com' and cfg.lang != '':
         parser.error('The language selects an official AtD server, there is no reason to specify both.')
+
+    if (cfg.password or cfg.username) and not (cfg.password and cfg.username):
+        parser.error("Username and password both have to be set (or none).")
 
     founderr = False
     for filename in args:
