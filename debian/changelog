@@ -1,3 +1,9 @@
+atdtool (1.1-2) unstable; urgency=low
+
+  * Signing with new key.
+
+ -- Leandro Lisboa Penz <lpenz@lpenz.org>  Sun, 17 Mar 2013 10:11:02 -0300
+
 atdtool (1.1-1) unstable; urgency=low
 
   * New upstream release: new parameters -e, -k; can check multiple files in a
