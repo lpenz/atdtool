@@ -1,7 +1,7 @@
 Source: atdtool
 Section: python
 Priority: extra
-Maintainer: Leandro Lisboa Penz <llpenz@gmail.com>
+Maintainer: Leandro Lisboa Penz <lpenz@lpenz.org>
 Build-Depends: debhelper (>= 7.0.50~)
 Standards-Version: 3.9.1
 Vcs-Browser: http://github.com/lpenz/atdtool

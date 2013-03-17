@@ -3,11 +3,11 @@ Upstream-Name: atdtool
 Source: http://lpenz.github.com/atdtool
 
 Files: *
-Copyright: 2011 Leandro Lisboa Penz llpenz@gmail.com
+Copyright: 2011 Leandro Lisboa Penz lpenz@lpenz.org
 License: BSD-3-Clause
 
 Files: debian/*
-Copyright: 2011 Leandro Lisboa Penz llpenz@gmail.com
+Copyright: 2011 Leandro Lisboa Penz lpenz@lpenz.org
 License: BSD-3-Clause
 
 License: BSD-3-Clause
