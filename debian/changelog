@@ -1,3 +1,9 @@
+atdtool (1.2-1) unstable; urgency=low
+
+  * Imported Upstream version 1.2
+
+ -- Leandro Lisboa Penz <lpenz@lpenz.org>  Sun, 19 May 2013 17:20:00 -0300
+
 atdtool (1.1-2) unstable; urgency=low
 
   * Signing with new key.
