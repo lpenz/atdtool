@@ -1,5 +1,5 @@
 script: git-buildpackage -uc -us
 before_install:
  - sudo apt-get update -qq
- - sudo apt-get install -qq txt2tags
+ - sudo apt-get install -qq txt2tags git-buildpackage
 
