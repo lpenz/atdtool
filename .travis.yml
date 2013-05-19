@@ -1,0 +1,5 @@
+script: make && pyflakes atdtool
+before_install:
+ - sudo apt-get update -qq
+ - sudo apt-get install -qq txt2tags pyflakes
+
