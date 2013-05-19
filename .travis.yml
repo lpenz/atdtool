@@ -1,4 +1,4 @@
-script: dpkg-buildpackage -uc -us
+script: git-buildpackage -uc -us
 before_install:
  - sudo apt-get update -qq
  - sudo apt-get install -qq txt2tags
