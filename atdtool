@@ -170,7 +170,7 @@ def showerrs(filename, fd, errs):
         exactstr = ''
         if not t.find(e.precontext, e.string):
             exactstr = ' (?)'
-        print('%s:%d:%d:%s %s "%s"' % (filename, t.line, t.col, exactstr, e.description, t.words))
+        print('%s:%d:%d:%s %s "%s"' % (filename, t.line, t.col, exactstr, e.description, t.words if hasattr(t, 'words') else ''))
         if len(e.suggestions) > 0:
             print('  suggestions: %s' % ', '.join(e.suggestions))
 
