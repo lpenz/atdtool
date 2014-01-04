@@ -1,7 +1,7 @@
 
-PREFIX=/usr/local
-BINDIR=$(PREFIX)/bin
-MANDIR=$(PREFIX)/share/man
+PREFIX ?= /usr/local
+BINDIR ?= $(PREFIX)/bin
+MANDIR ?= $(PREFIX)/share/man
 
 CFLAGS=-Wall -Werror
 
