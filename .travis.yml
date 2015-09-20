@@ -1,5 +1,31 @@
-script: make && pyflakes atdtool
+language: python
+python:
+  - "2.6"
+  - "2.7"
+  - "3.3"
+  - "3.4"
 before_install:
- - sudo apt-get update -qq
- - sudo apt-get install -qq txt2tags pyflakes
-
+  # coveralls:
+  - pip install coveralls
+  # static checkers:
+  - pip install flake8 py3kwarn
+addons:
+  apt:
+    packages:
+      - txt2tags
+script:
+  - nosetests --with-doc --exe --with-coverage
+  - pip install .
+  - make
+  # Test if we .gitignore test files:
+  - TMP=$(tempfile)
+  - git ls-files . --exclude-standard --others | tee "$TMP"
+  - if test -s "$TMP"; then false; else true; fi
+  # Test if we .gitignore any tracked files:
+  - git ls-files -i --exclude-standard | tee "$TMP"
+  - if test -s "$TMP"; then false; else true; fi
+  # static checkers:
+  - flake8 . bin/*
+  - if [ "$TRAVIS_PYTHON_VERSION" = "2.7" ]; then py3kwarn .; fi
+after_success:
+  - coveralls
