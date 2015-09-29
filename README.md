@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/lpenz/atdtool.svg?branch=master)](https://travis-ci.org/lpenz/atdtool)
 [![Coverage Status](https://coveralls.io/repos/lpenz/atdtool/badge.svg?branch=master&service=github)](https://coveralls.io/github/lpenz/atdtool?branch=master)
+[![PyPi version](https://img.shields.io/pypi/v/atdtool.png)](https://pypi.python.org/pypi/atdtool)
+[![Code Climate](https://codeclimate.com/github/lpenz/atdtool/badges/gpa.svg)](https://codeclimate.com/github/lpenz/atdtool)
 
 # atdtool
 
