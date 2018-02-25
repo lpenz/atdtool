@@ -13,7 +13,6 @@ addons:
 script:
   - nosetests --with-doc --exe --with-coverage
   - pip install .
-  - make
   # Test if we .gitignore test files:
   - TMP=$(tempfile)
   - git ls-files . --exclude-standard --others | tee "$TMP"
