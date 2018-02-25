@@ -8,6 +8,7 @@ install:
   - pip install pytest pytest-cov
 script:
   - pytest --cov --doctest-modules '--doctest-glob=atdtool/*'
+  - python setup.py install
 after_success: bash <(curl -s https://codecov.io/bash)
 jobs:
   include:
