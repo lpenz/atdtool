@@ -16,3 +16,16 @@ jobs:
       install: docker pull lpenz/omnilint
       script: docker run --rm -v "$PWD:$PWD" -e "RWD=$PWD" -e "MY_UID=$UID" lpenz/omnilint
       after_success:
+    - stage: deploy
+      install: true
+      script: true
+      after_success: true
+      deploy:
+        provider: pypi
+        user: lpenz
+        password:
+          secure: mNywxh67ppluKm3//gF1L1IAUhdXcleSRor2tz5JLOO/OJY+xtz01bgdlGqy47gIBD+GM5bPlUE+FJy3cHyN0OyA68dCwD+Qbyjeyv+OBXtFpTwFjHhhcwH9Yc16ASp9niVBm6FFd/3PJGJJobe2sWVl3oKLrxO6npMm6ecEkpE=
+        on:
+          tags: true
+          distributions: sdist bdist_wheel
+          repo: lpenz/atdtool
