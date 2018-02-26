@@ -1,9 +1,10 @@
 [![Build Status](https://travis-ci.org/lpenz/atdtool.svg?branch=master)](https://travis-ci.org/lpenz/atdtool)
-[![Coverage Status](https://coveralls.io/repos/lpenz/atdtool/badge.svg?branch=master&service=github)](https://coveralls.io/github/lpenz/atdtool?branch=master)
+[![codecov](https://codecov.io/gh/lpenz/atdtool/branch/master/graph/badge.svg)](https://codecov.io/gh/lpenz/atdtool)
 [![PyPi version](https://img.shields.io/pypi/v/atdtool.png)](https://pypi.python.org/pypi/atdtool)
-[![Code Climate](https://codeclimate.com/github/lpenz/atdtool/badges/gpa.svg)](https://codeclimate.com/github/lpenz/atdtool)
 
-# atdtool
+
+atdtool
+=======
 
 **atdtool** is a command-line tools that contacts an After the Deadline language
 service and displays the errors reported by the service in a format very similar
