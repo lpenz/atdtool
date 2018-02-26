@@ -1,10 +1,13 @@
 #!/usr/bin/python
 
 import re
-import httplib
 import urllib
 import base64
 from xml.etree import ElementTree
+try:
+    import httplib
+except ImportError:
+    import http.client as httplib
 
 
 PROGRAM_NAME = "atdtool"
