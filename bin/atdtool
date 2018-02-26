@@ -18,13 +18,9 @@ except ImportError:
     import atdtool
 
 
-PROGRAM_NAME = "atdtool"
-PROGRAM_VERSION = "1.3"
-
-
 def main():
     parser = OptionParser(usage='Usage: %prog <file>',
-                          version="%prog " + PROGRAM_VERSION,
+                          version="%prog " + atdtool.PROGRAM_VERSION,
                           description='''\
 atdtool submits the given file to the After the Deadline language checking
 service at http://www.afterthedeadline.com/ and presents the results in

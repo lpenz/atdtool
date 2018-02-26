@@ -11,7 +11,7 @@ except ImportError:
 
 
 PROGRAM_NAME = "atdtool"
-PROGRAM_VERSION = "1.3"
+PROGRAM_VERSION = "1.3.1"
 
 
 def checkDocument(cfg, fd):
