@@ -1,8 +1,6 @@
-*.pyc
-atdtool.1
-
+/debian/files
 /debian/atdtool.debhelper.log
 /debian/atdtool.substvars
 /debian/atdtool/
-/debian/files
-/debian/usr/
+atdtool.1
+*.pyc
