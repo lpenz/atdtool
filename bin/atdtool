@@ -1,0 +1,84 @@
+#!/usr/bin/python
+''' atdtool
+Command-line client for After the Deadline:
+http://www.afterthedeadline.com
+
+Based on AtD module by Miguel Ventura:
+http://bitbucket.org/miguelventura/after_the_deadline/wiki/Home
+'''
+
+from optparse import OptionParser
+import os
+import sys
+
+try:
+    import atdtool
+except ImportError:
+    sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+    import atdtool
+
+
+def main():
+    parser = OptionParser(usage='Usage: %prog <file>',
+                          version="%prog " + atdtool.PROGRAM_VERSION,
+                          description='''\
+atdtool submits the given file to the After the Deadline language checking
+service at http://www.afterthedeadline.com/ and presents the results in
+the same format as gcc, making integration with other tools (vi, emacs, etc.)
+straightforward.
+''')
+    parser.add_option('-s', '--server', dest='server',
+                      help='Select AtD server',
+                      default='service.afterthedeadline.com')
+    parser.add_option('-P', '--port', dest='port',
+                      help='Server port (default: 80)',
+                      default='80')
+    parser.add_option('-l', '--atdlang', dest='atdlang',
+                      help='Select language server [fr/de/pt/es], '
+                      'used for official AtD server',
+                      default='')
+    parser.add_option('-L', '--lang', dest='lang',
+                      help='Language parameter, used for other servers',
+                      default='')
+    parser.add_option('-e', '--error', dest='error',
+                      help='Exit with error if any mistakes are found',
+                      default=False)
+    parser.add_option('-k', '--key', dest='key', help='Key to use', default='')
+    parser.add_option('-u', '--username', dest='username',
+                      help='Username (if required by server)', default='')
+    parser.add_option('-p', '--password', dest='password',
+                      help='Password (if required by server)', default='')
+
+    (cfg, args) = parser.parse_args()
+
+    if len(args) == 0:
+        parser.error('expecting file argument')
+
+    if cfg.server != 'service.afterthedeadline.com' and cfg.atdlang != '':
+        parser.error(
+            'The atdlang option selects an official AtD server, '
+            'there is no reason to specify both.')
+
+    if (cfg.password or cfg.username) and not (cfg.password and cfg.username):
+        parser.error("Username and password both have to be set (or none).")
+
+    founderr = False
+    for filename in args:
+        fd = None
+        try:
+            fd = open(filename)
+        except IOError:
+            print('%s: No such file or directory' % filename)
+        if not fd:
+            continue
+        errs = atdtool.checkDocument(cfg, fd)
+        founderr = founderr or len(errs) > 0
+        fd.seek(0)
+        atdtool.showerrs(filename, fd, errs)
+        fd.close()
+    if cfg.error and founderr:
+        sys.exit(1)
+
+
+if __name__ == '__main__':
+    main()
