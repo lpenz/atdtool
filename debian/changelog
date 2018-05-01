@@ -1,3 +1,10 @@
+atdtool (1.3.3-1) UNRELEASED; urgency=medium
+
+  * Upstream version 1.3.3
+  * Package modernized
+
+ -- Leandro Lisboa Penz <lpenz@lpenz.org>  Tue, 01 May 2018 22:11:11 +0100
+
 atdtool (1.3-1) unstable; urgency=low
 
   * Imported Upstream version 1.3
