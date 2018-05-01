@@ -1,3 +1,9 @@
+atdtool (1.3.3-2) UNRELEASED; urgency=medium
+
+  * Automatically deploy to packagecloud.
+
+ -- Leandro Lisboa Penz <lpenz@lpenz.org>  Tue, 01 May 2018 22:39:57 +0100
+
 atdtool (1.3.3-1) UNRELEASED; urgency=medium
 
   * Upstream version 1.3.3
