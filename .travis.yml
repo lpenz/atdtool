@@ -8,3 +8,15 @@ script:
   - docker rm -f debian
   - sudo chown -R "$USER:$USER" ../
   - ls -l ..
+deploy:
+  provider: packagecloud
+  repository: lpenz
+  username: lpenz
+  token:
+    secure: dh2FALeXyEb2yt+bMbF/DkEQofHhXje4SvBYvzxLaIvCn2ZCqTebrEK2M3rmaYNwNQe3skh9eOwNMp3qehO7IV3vyg+ilMx+WOHKTFRYs81SCYq/XFBKTgkSgNMiituaugY5pd1g/vb8QUXDffdgIlNJ7H+9oKgmisqbW7kJK/o=
+  dist: debian/stretch
+  local-dir: ".."
+  package_glob: "*.deb"
+  on:
+    branch: debian-debian
+    tags: true
