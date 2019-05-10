@@ -1,4 +1,5 @@
 ---
+dist: xenial
 language: python
 python:
   - 2.7
@@ -7,12 +8,12 @@ python:
 install:
   - pip install pytest pytest-cov
 script:
-  - pytest --cov --doctest-modules '--doctest-glob=atdtool/*'
+  - pytest --cov --doctest-modules '--doctest-glob=atdtool/*.py'
   - python setup.py install
 after_success: bash <(curl -s https://codecov.io/bash)
 jobs:
   include:
-    - env: [ omnilint ]
+    - name: omnilint
       language: generic
       install: docker pull lpenz/omnilint
       script: docker run --rm -v "$PWD:$PWD" -e "RWD=$PWD" -e "MY_UID=$UID" lpenz/omnilint
